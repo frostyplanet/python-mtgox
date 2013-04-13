@@ -216,7 +216,7 @@ class Private:
         an expanded format. For example, int(12300000)BTC
         is interpreted as 1.23BTC.
         """
-        self._order_add('ask', amount, price, currency)
+        return self._order_add('ask', amount, price, currency)
         
     def bid(self, amount, price, currency=CURRENCY):
         """Buy bitcoins
@@ -225,7 +225,7 @@ class Private:
         an expanded format. For example, int(12300000)BTC
         is interpreted as 1.23BTC.
         """
-        self._order_add('bid', amount, price, currency)
+        return self._order_add('bid', amount, price, currency)
 
     def _order_add(self, order_type, amount, price, currency):
         if type(amount) in (Decimal, float):
