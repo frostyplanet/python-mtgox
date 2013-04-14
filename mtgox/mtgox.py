@@ -195,6 +195,7 @@ class Private:
 
     def cancel_ask(self, oid):
         return self._cancel(oid, 1)
+
     def cancel_bid(self, oid):
         return self._cancel(oid, 2)
 
@@ -239,6 +240,14 @@ class Private:
                 'price_int' : price}
         return self._specific('order/add', currency, data)
 
+    def order_result(self, order_type, oid):
+        assert order_type in ['bid', 'ask']
+        data = {
+                'type': order_type,
+                'order': oid
+                }
+        return self._generic('order/result', data)
+
     def withdrawl_btc(self, address, amount):
         url = "https://mtgox.com/api/0/withdraw.php"
         if type(amount) in (Decimal, float):
@@ -251,4 +260,9 @@ class Private:
         f = urllib2.urlopen(req)
         data = json.load(f)
         return data
+
+    def get_idkey (self):
+        url = "https://mtgox.com/api/1/generic/private/idkey"
+        return self._json_request (url)
+    
 
