@@ -241,12 +241,18 @@ class Private:
         return self._specific('order/add', currency, data)
 
     def order_result(self, order_type, oid):
+        """ if order not successfully traded, eg, invalid / open order, return None """
         assert order_type in ['bid', 'ask']
         data = {
                 'type': order_type,
                 'order': oid
                 }
-        return self._generic('order/result', data)
+        try:
+            return self._generic('order/result', data)
+        except MtGoxError, e:
+            if str(e.value).lower().find ('no data') >= 0:
+                return None
+            raise e
 
     def withdrawl_btc(self, address, amount):
         url = "https://mtgox.com/api/0/withdraw.php"
