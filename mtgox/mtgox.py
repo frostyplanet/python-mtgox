@@ -100,6 +100,7 @@ def _generic(name, data=None):
 
 def _specific(name, currency, data=None):
     url = _URL + 'BTC' + currency + '/public/' + name
+    print url
     return _json_request(url, data)        
 
 def _json_request(url, data=None):
@@ -123,17 +124,21 @@ def currency(currency):
 
 def depth(currency=CURRENCY):
     """Return depth for a given currency."""
-    if RETURN_TYPE is str:
-        pass
-    else:
-        return _specific('depth', currency)
+    url = "http://data.mtgox.com/api/1/BTC%s/depth/fetch" % (currency)
+    return _json_request (url)
+#    if RETURN_TYPE is str:
+#        pass
+#    else:
+#        return _specific('depth', currency)
 
 def depth_full(currency=CURRENCY):
     return _specific('fulldepth', currency)
 
 def ticker(currency=CURRENCY):
     """Return ticker for a given currency."""
-    return _specific('ticker', currency)
+    url = "http://data.mtgox.com/api/1/BTC%s/ticker" % (currency)
+    return _json_request (url)
+    #return _specific('ticker', currency)
 
 def trades(currency=CURRENCY):
     """Return trades for a given currency."""
